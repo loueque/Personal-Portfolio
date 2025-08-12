@@ -1,0 +1,13 @@
+[
+    {
+        "name": "John",
+        "age": 40,
+        "ssn": 234999,
+        "balance": 96500.0,
+        "bankId": 131150,
+        "transactions": [
+            "Deposited: $100000.00 | Date: 1754976127.0125926",
+            "Withdrew: $3500.00 | Date: 1754976127.0125926"
+        ]
+    }
+]
