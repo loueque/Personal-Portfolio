@@ -7,6 +7,9 @@ from pathlib import Path
 
 DATA_PATH = Path(__file__).with_name("bank_data.json")
 
+x = list(map(lambda x: x**2, [2, 3, 5, 10, 11]))
+print(x)
+
 def interest(principle, annual_rate, times_compunded, time_periods):
     if principle < 0 or annual_rate < 0 or times_compunded <= 0 or time_periods < 0:
         raise ValueError("All parameters must be non-negative and times_compunded must be positive.")
@@ -123,30 +126,35 @@ class Bank:
 bank = Bank()
 bank.load()
 
-name, age, ssn, bId = str(input("Hello, please put your information here: [Name] [Age] [SSN] [Bank ID, 0 if you do not have one!]\n")).split()
-person = None
+while True:
+    choice = str(input("What would you like to do?\n(1) Login (Y)\n(2) Exit (E)\n\n"))
+    if choice == "E":
+        break
 
-if int(bId) != 0:
-    person = bank.get_client_by_id(int(bId))
-else:
-    person = bank.get_client_by_name(name)
+    name, age, ssn, bId = str(input("Hello, please put your information here: [Name] [Age] [SSN] [Bank ID, 0 if you do not have one!]\n")).split()
+    person = None
 
-if person is None:
-    person = Client(name, int(age), int(ssn), int(bId))
-    bank.add_client(person)
+    if int(bId) != 0:
+        person = bank.get_client_by_id(int(bId))
+    else:
+        person = bank.get_client_by_name(name)
 
-task = int(input("Hello there, welcome to the bank, what would you like to do today?\n(1) Depost money\n(2) Withdraw money\n(3) Show my balance\n(4) Retrieve my information\n"))
-if task == 1:
-    amount = int(input(f"How much would you like to deposit [BALANCE: {person.balance}]: "))
-    person.deposit(amount)
-    print(f"Thank you. Your new balance is {person.balance}")
-elif task == 2:
-    amount = int(input(f"How much would you like to withdraw [BALANCE: {person.balance}]: "))
-    person.withdraw(amount)
-    print(f"Thank you. Your new balance is {person.balance}")
-elif task == 3:
-    print(f"Your current balance is: {person.balance:.2f}")
-elif task == 4:
-    print(f"DISCLAIMER: DO NOT SHOW THIS TO ANYONE\n\nYour SSN: {person.ssn}\nYour Bank ID Number: {person.bankId}")
+    if person is None:
+        person = Client(name, int(age), int(ssn), int(bId))
+        bank.add_client(person)
+
+    task = int(input("Hello there, welcome to the bank, what would you like to do today?\n(1) Depost money\n(2) Withdraw money\n(3) Show my balance\n(4) Retrieve my information\n"))
+    if task == 1:
+        amount = int(input(f"How much would you like to deposit [BALANCE: {person.balance}]: "))
+        person.deposit(amount)
+        print(f"Thank you. Your new balance is {person.balance}")
+    elif task == 2:
+        amount = int(input(f"How much would you like to withdraw [BALANCE: {person.balance}]: "))
+        person.withdraw(amount)
+        print(f"Thank you. Your new balance is {person.balance}")
+    elif task == 3:
+        print(f"Your current balance is: {person.balance:.2f}")
+    elif task == 4:
+        print(f"DISCLAIMER: DO NOT SHOW THIS TO ANYONE\n\nYour SSN: {person.ssn}\nYour Bank ID Number: {person.bankId}")
 
 bank.save()
